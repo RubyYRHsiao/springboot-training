@@ -22,6 +22,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Optional<Task> findTaskById(Long id) {
+        Optional<Task> data = taskRepository.findById(id);
+        if (!data.isPresent())
+            throw new IllegalStateException("Task does not exists");
         return taskRepository.findById(id);
     }
 
@@ -32,11 +35,17 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task updateTask(Task task) {
+        Optional<Task> data = taskRepository.findById(task.getId());
+        if (!data.isPresent())
+            throw new IllegalStateException("Task does not exists");
         return taskRepository.save(task);
     }
 
     @Override
     public void deleteTask(Long id) {
+        Optional<Task> data = taskRepository.findById(id);
+        if (!data.isPresent())
+            throw new IllegalStateException("Task does not exists");
         taskRepository.deleteById(id);
     }
 }
