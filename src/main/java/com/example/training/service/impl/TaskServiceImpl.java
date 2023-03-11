@@ -1,8 +1,9 @@
 package com.example.training.service.impl;
 
-import com.example.training.repository.TaskRepository;
 import com.example.training.entity.Task;
+import com.example.training.repository.TaskRepository;
 import com.example.training.service.TaskService;
+import com.example.training.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,36 +17,37 @@ public class TaskServiceImpl implements TaskService {
     private TaskRepository taskRepository;
 
     @Override
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public ResponseVO<List<Task>> getAllTasks() {
+        return ResponseVO.<List<Task>>builder().result(taskRepository.findAll()).build();
     }
 
     @Override
-    public Optional<Task> findTaskById(Long id) {
+    public ResponseVO<Optional<Task>> findTaskById(Long id) {
         Optional<Task> data = taskRepository.findById(id);
         if (!data.isPresent())
             throw new IllegalStateException("Task does not exists");
-        return taskRepository.findById(id);
+        return ResponseVO.<Optional<Task>>builder().result(data).build();
     }
 
     @Override
-    public Task saveTask(Task task) {
-        return taskRepository.save(task);
+    public ResponseVO<Task> saveTask(Task task) {
+        return ResponseVO.<Task>builder().result(taskRepository.save(task)).build();
     }
 
     @Override
-    public Task updateTask(Task task) {
+    public ResponseVO<Task> updateTask(Task task) {
         Optional<Task> data = taskRepository.findById(task.getId());
         if (!data.isPresent())
             throw new IllegalStateException("Task does not exists");
-        return taskRepository.save(task);
+        return ResponseVO.<Task>builder().result(taskRepository.save(task)).build();
     }
 
     @Override
-    public void deleteTask(Long id) {
+    public ResponseVO<String> deleteTask(Long id) {
         Optional<Task> data = taskRepository.findById(id);
         if (!data.isPresent())
             throw new IllegalStateException("Task does not exists");
         taskRepository.deleteById(id);
+        return ResponseVO.<String>builder().message("success").build();
     }
 }
