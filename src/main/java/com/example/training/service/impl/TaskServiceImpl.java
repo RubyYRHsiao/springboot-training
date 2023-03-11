@@ -5,7 +5,9 @@ import com.example.training.repository.TaskRepository;
 import com.example.training.service.TaskService;
 import com.example.training.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseVO<Optional<Task>> findTaskById(Long id) {
         Optional<Task> data = taskRepository.findById(id);
         if (!data.isPresent())
-            throw new IllegalStateException("Task does not exists");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task does not exists");
         return ResponseVO.<Optional<Task>>builder().result(data).build();
     }
 
@@ -38,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseVO<Task> updateTask(Task task) {
         Optional<Task> data = taskRepository.findById(task.getId());
         if (!data.isPresent())
-            throw new IllegalStateException("Task does not exists");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task does not exists");
         return ResponseVO.<Task>builder().result(taskRepository.save(task)).build();
     }
 
@@ -46,7 +48,7 @@ public class TaskServiceImpl implements TaskService {
     public ResponseVO<String> deleteTask(Long id) {
         Optional<Task> data = taskRepository.findById(id);
         if (!data.isPresent())
-            throw new IllegalStateException("Task does not exists");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task does not exists");
         taskRepository.deleteById(id);
         return ResponseVO.<String>builder().message("success").build();
     }
