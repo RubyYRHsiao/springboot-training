@@ -23,7 +23,7 @@ public class Task {
     private Long id;
 
     @NotBlank
-    @Size(max = 20, message = "Name cant not be more than 20 characters")
+    @Size(max = 20, message = "Name can not be more than 20 characters")
     @Column(name = "name")
     private String name;
 
