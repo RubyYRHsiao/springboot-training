@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -24,11 +26,21 @@ public class Task {
 
     @NotBlank
     @Size(max = 20, message = "Name can not be more than 20 characters")
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
     @Builder.Default
     @Column(name = "is_complete")
     private Boolean isComplete = false;
+
+    @OneToOne(mappedBy = "task", fetch = FetchType.LAZY)
+    private Pay pay;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "student_task",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id"))
+    private Set<Student> assigned;
 }
