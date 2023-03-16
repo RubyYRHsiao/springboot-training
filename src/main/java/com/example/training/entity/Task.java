@@ -1,5 +1,6 @@
 package com.example.training.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,6 +37,7 @@ public class Task {
     @OneToOne(mappedBy = "task", fetch = FetchType.LAZY)
     private Pay pay;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_task",
