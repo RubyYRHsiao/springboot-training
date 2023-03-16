@@ -40,7 +40,7 @@ public class Task {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_task",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "task_id"))
+            joinColumns = @JoinColumn(name = "task_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> assigned;
 }
