@@ -1,5 +1,6 @@
 package com.example.training.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -30,17 +31,19 @@ public class Task {
     private String name;
 
     @NotNull
-    @Builder.Default
-    @Column(name = "is_complete")
+    @Column(name = "is_complete", columnDefinition = "boolean default false")
     private Boolean isComplete = false;
 
     @OneToOne(mappedBy = "task", fetch = FetchType.LAZY)
     private Pay pay;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "student_task",
             joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
+            inverseJoinColumns = @JoinColumn(name = "student_id"),
+            foreignKey = @ForeignKey(name = "fk_task"),
+            inverseForeignKey = @ForeignKey(name = "fk_student"))
     private Set<Student> assigned;
 }
