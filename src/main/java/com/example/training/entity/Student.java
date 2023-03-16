@@ -29,7 +29,7 @@ public class Student {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school", nullable = false)
+    @JoinColumn(name = "school", nullable = false, foreignKey = @ForeignKey(name = "fk_school"))
     private School school;
 
     @ManyToMany(mappedBy = "assigned", fetch = FetchType.LAZY)

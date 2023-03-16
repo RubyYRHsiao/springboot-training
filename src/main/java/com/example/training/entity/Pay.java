@@ -25,6 +25,6 @@ public class Pay {
     private Integer pay;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id", nullable = false)
+    @JoinColumn(name = "task_id", nullable = false, foreignKey = @ForeignKey(name = "fk_task"))
     private Task task;
 }

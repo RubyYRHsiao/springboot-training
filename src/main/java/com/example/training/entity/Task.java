@@ -42,6 +42,8 @@ public class Task {
     @JoinTable(
             name = "student_task",
             joinColumns = @JoinColumn(name = "task_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
+            inverseJoinColumns = @JoinColumn(name = "student_id"),
+            foreignKey = @ForeignKey(name = "fk_task"),
+            inverseForeignKey = @ForeignKey(name = "fk_student"))
     private Set<Student> assigned;
 }
