@@ -30,8 +30,7 @@ public class Task {
     private String name;
 
     @NotNull
-    @Builder.Default
-    @Column(name = "is_complete")
+    @Column(name = "is_complete", columnDefinition = "boolean default false")
     private Boolean isComplete = false;
 
     @OneToOne(mappedBy = "task", fetch = FetchType.LAZY)
