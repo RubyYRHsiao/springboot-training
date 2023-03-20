@@ -31,8 +31,8 @@ public class Task {
     private String name;
 
     @NotNull
-    @Column(name = "is_complete", columnDefinition = "boolean default false")
-    private Boolean isComplete = false;
+    @Column(name = "is_completed", columnDefinition = "boolean default false")
+    private Boolean isCompleted = false;
 
     @OneToOne(mappedBy = "task", fetch = FetchType.LAZY)
     private Pay pay;
