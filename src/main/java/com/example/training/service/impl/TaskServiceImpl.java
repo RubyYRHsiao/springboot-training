@@ -13,8 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @Service
+@Transactional
 public class TaskServiceImpl implements TaskService {
 
     @Autowired
@@ -27,10 +27,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseVO<Optional<Task>> findTaskById(Long id) {
-        Optional<Task> data = taskRepository.findById(id);
-        if (!data.isPresent())
+        if (!taskRepository.existsById(id))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task does not exist");
-        return ResponseVO.<Optional<Task>>builder().result(data).build();
+        return ResponseVO.<Optional<Task>>builder().result(taskRepository.findById(id)).build();
     }
 
     @Override
@@ -40,16 +39,14 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public ResponseVO<Task> updateTask(Task task) {
-        Optional<Task> data = taskRepository.findById(task.getId());
-        if (!data.isPresent())
+        if (!taskRepository.existsById(task.getId()))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task does not exist");
         return ResponseVO.<Task>builder().result(taskRepository.save(task)).build();
     }
 
     @Override
     public ResponseVO<String> deleteTask(Long id) {
-        Optional<Task> data = taskRepository.findById(id);
-        if (!data.isPresent())
+        if (!taskRepository.existsById(id))
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Task does not exist");
         taskRepository.deleteById(id);
         return ResponseVO.<String>builder().message("success").build();
