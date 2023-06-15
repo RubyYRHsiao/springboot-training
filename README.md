@@ -30,7 +30,7 @@
 
 3. Run server
    ```
-   cd training
+   cd springboot-training
    ```
    ```
    ./gradlew bootrun
